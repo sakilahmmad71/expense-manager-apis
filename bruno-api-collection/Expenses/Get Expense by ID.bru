@@ -24,6 +24,7 @@ tests {
     expect(res.body.expense).to.have.property('id');
     expect(res.body.expense).to.have.property('title');
     expect(res.body.expense).to.have.property('amount');
+    expect(res.body.expense).to.have.property('currency');
     expect(res.body.expense).to.have.property('category');
     expect(res.body.expense).to.have.property('date');
   });

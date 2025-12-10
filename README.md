@@ -7,6 +7,7 @@ A comprehensive REST API for managing expenses with authentication, authorizatio
 - 🔐 **Authentication & Authorization** - JWT-based user authentication with secure password hashing
 - 👤 **User Profile Management** - Update user information (name, email, password)
 - 💰 **Expense Management** - Full CRUD operations with advanced filtering and pagination
+- 💱 **Multi-Currency Support** - Track expenses in multiple currencies (USD, EUR, GBP, JPY, INR, BDT, and more)
 - 🏷️ **Category Management** - Custom categories with colors, icons, and full CRUD operations
 - 📊 **Dashboard Analytics** - Summary statistics, category breakdown, monthly trends, and recent expenses
 - 🔍 **Advanced Filtering** - Filter expenses by category, date range, with sorting and pagination
@@ -202,6 +203,7 @@ curl -X POST http://localhost:3000/api/v1/expenses \
   -d '{
     "title": "Groceries",
     "amount": 45.50,
+    "currency": "USD",
     "categoryId": "category-uuid-here",
     "description": "Weekly grocery shopping",
     "date": "2025-12-09"
@@ -263,6 +265,7 @@ curl -X GET "http://localhost:3000/api/v1/dashboard/summary?startDate=2025-12-01
 - `id` (UUID, Primary Key)
 - `title` (String, required)
 - `amount` (Decimal, required)
+- `currency` (String, default: "USD") - ISO currency code (USD, EUR, GBP, JPY, INR, BDT, etc.)
 - `description` (String, optional)
 - `date` (DateTime, required)
 - `categoryId` (UUID, Foreign Key)
@@ -404,12 +407,14 @@ expense-manager-apis/
 - ✅ Enhanced dashboard with monthly trends
 - ✅ Health check endpoints
 - ✅ Bruno API collection for testing
+- ✅ Multi-currency support (USD, EUR, GBP, JPY, INR, BDT, AUD, CAD, CHF, CNY)
 
 ### Database Updates
 
 - ✅ Added Category model with user relationship
 - ✅ Updated Expense model with categoryId foreign key
 - ✅ Migration from category string to Category relation
+- ✅ Added currency field to Expense model with USD default
 
 ### Security & Validation
 

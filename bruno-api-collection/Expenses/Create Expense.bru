@@ -18,6 +18,7 @@ body:json {
   {
     "title": "Grocery Shopping",
     "amount": 125.50,
+    "currency": "USD",
     "categoryId": "{{categoryId}}",
     "description": "Weekly grocery shopping at Walmart",
     "date": "2025-12-09"
@@ -40,6 +41,7 @@ tests {
     expect(res.body.expense).to.have.property('id');
     expect(res.body.expense).to.have.property('title');
     expect(res.body.expense).to.have.property('amount');
+    expect(res.body.expense).to.have.property('currency');
     expect(res.body.expense).to.have.property('categoryId');
     expect(res.body.expense).to.have.property('category');
   });
