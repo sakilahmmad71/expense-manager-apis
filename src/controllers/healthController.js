@@ -7,7 +7,7 @@ export const getHealth = async (req, res) => {
       message: 'Expenser API is running',
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
-      environment: process.env.NODE_ENV || 'development',
+      environment: process.env.NODE_ENV || 'development'
     };
 
     res.json(healthCheck);
@@ -15,7 +15,7 @@ export const getHealth = async (req, res) => {
     res.status(503).json({
       status: 'error',
       message: 'Service unavailable',
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toISOString()
     });
   }
 };
@@ -42,12 +42,12 @@ export const getHealthDetailed = async (req, res) => {
       services: {
         database: {
           status: databaseStatus,
-          message: databaseMessage,
+          message: databaseMessage
         },
         api: {
           status: 'ok',
-          message: 'API is operational',
-        },
+          message: 'API is operational'
+        }
       },
       system: {
         platform: process.platform,
@@ -55,9 +55,9 @@ export const getHealthDetailed = async (req, res) => {
         memory: {
           used: Math.round((process.memoryUsage().heapUsed / 1024 / 1024) * 100) / 100,
           total: Math.round((process.memoryUsage().heapTotal / 1024 / 1024) * 100) / 100,
-          unit: 'MB',
-        },
-      },
+          unit: 'MB'
+        }
+      }
     };
 
     const statusCode = databaseStatus === 'connected' ? 200 : 503;
@@ -67,7 +67,7 @@ export const getHealthDetailed = async (req, res) => {
       status: 'error',
       message: 'Service unavailable',
       timestamp: new Date().toISOString(),
-      error: error.message,
+      error: error.message
     });
   }
 };

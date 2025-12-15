@@ -7,27 +7,28 @@ const getDashboardSummary = async (req, res) => {
 
     const where = {
       userId: req.userId,
-      ...(startDate && endDate && {
-        date: {
-          gte: new Date(startDate),
-          lte: new Date(endDate),
-        },
-      }),
+      ...(startDate &&
+        endDate && {
+          date: {
+            gte: new Date(startDate),
+            lte: new Date(endDate)
+          }
+        })
     };
 
     const [totalExpenses, expenseCount, expenses] = await Promise.all([
       prisma.expense.aggregate({
         where,
-        _sum: { amount: true },
+        _sum: { amount: true }
       }),
       prisma.expense.count({ where }),
       prisma.expense.findMany({
         where,
         orderBy: { date: 'desc' },
         include: {
-          category: true,
-        },
-      }),
+          category: true
+        }
+      })
     ]);
 
     const categoryBreakdown = expenses.reduce((acc, expense) => {
@@ -36,17 +37,15 @@ const getDashboardSummary = async (req, res) => {
       return acc;
     }, {});
 
-    const averageExpense = expenseCount > 0
-      ? (totalExpenses._sum.amount || 0) / expenseCount
-      : 0;
+    const averageExpense = expenseCount > 0 ? (totalExpenses._sum.amount || 0) / expenseCount : 0;
 
     res.json({
       summary: {
         totalAmount: totalExpenses._sum.amount || 0,
         totalCount: expenseCount,
         averageExpense: parseFloat(averageExpense.toFixed(2)),
-        categoryBreakdown,
-      },
+        categoryBreakdown
+      }
     });
   } catch (error) {
     logger.logError(error, null, { context: 'dashboard-summary' });
@@ -60,12 +59,13 @@ const getCategoryAnalytics = async (req, res) => {
 
     const where = {
       userId: req.userId,
-      ...(startDate && endDate && {
-        date: {
-          gte: new Date(startDate),
-          lte: new Date(endDate),
-        },
-      }),
+      ...(startDate &&
+        endDate && {
+          date: {
+            gte: new Date(startDate),
+            lte: new Date(endDate)
+          }
+        })
     };
 
     const expenses = await prisma.expense.findMany({
@@ -77,22 +77,22 @@ const getCategoryAnalytics = async (req, res) => {
             id: true,
             name: true,
             color: true,
-            icon: true,
-          },
-        },
-      },
+            icon: true
+          }
+        }
+      }
     });
 
     const analytics = expenses.reduce((acc, expense) => {
       const categoryId = expense.category.id;
       if (!acc[categoryId]) {
         acc[categoryId] = {
-          categoryId: categoryId,
+          categoryId,
           categoryName: expense.category.name,
           color: expense.category.color,
           icon: expense.category.icon,
           totalAmount: 0,
-          count: 0,
+          count: 0
         };
       }
       acc[categoryId].totalAmount += expense.amount;
@@ -102,7 +102,7 @@ const getCategoryAnalytics = async (req, res) => {
 
     const categoryAnalytics = Object.values(analytics).map(item => ({
       ...item,
-      averageAmount: parseFloat((item.totalAmount / item.count).toFixed(2)),
+      averageAmount: parseFloat((item.totalAmount / item.count).toFixed(2))
     }));
 
     res.json({ categoryAnalytics });
@@ -121,17 +121,17 @@ const getMonthlyTrends = async (req, res) => {
         userId: req.userId,
         date: {
           gte: new Date(`${year}-01-01`),
-          lte: new Date(`${year}-12-31`),
-        },
+          lte: new Date(`${year}-12-31`)
+        }
       },
-      orderBy: { date: 'asc' },
+      orderBy: { date: 'asc' }
     });
 
     const monthlyData = Array.from({ length: 12 }, (_, i) => ({
       month: i + 1,
       monthName: new Date(year, i).toLocaleString('default', { month: 'long' }),
       totalAmount: 0,
-      count: 0,
+      count: 0
     }));
 
     expenses.forEach(expense => {
@@ -156,8 +156,8 @@ const getRecentExpenses = async (req, res) => {
       orderBy: { date: 'desc' },
       take: parseInt(limit),
       include: {
-        category: true,
-      },
+        category: true
+      }
     });
 
     res.json({ expenses });
@@ -167,9 +167,4 @@ const getRecentExpenses = async (req, res) => {
   }
 };
 
-export {
-  getDashboardSummary,
-  getCategoryAnalytics,
-  getMonthlyTrends,
-  getRecentExpenses,
-};
+export { getDashboardSummary, getCategoryAnalytics, getMonthlyTrends, getRecentExpenses };

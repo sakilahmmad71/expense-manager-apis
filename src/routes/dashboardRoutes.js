@@ -3,7 +3,7 @@ import {
   getDashboardSummary,
   getCategoryAnalytics,
   getMonthlyTrends,
-  getRecentExpenses,
+  getRecentExpenses
 } from '../controllers/dashboardController.js';
 import authMiddleware from '../middleware/auth.js';
 

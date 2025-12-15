@@ -10,7 +10,7 @@ router.post(
   [
     body('email').isEmail().withMessage('Valid email is required'),
     body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
-    body('name').notEmpty().withMessage('Name is required'),
+    body('name').notEmpty().withMessage('Name is required')
   ],
   register
 );
@@ -19,7 +19,7 @@ router.post(
   '/login',
   [
     body('email').isEmail().withMessage('Valid email is required'),
-    body('password').notEmpty().withMessage('Password is required'),
+    body('password').notEmpty().withMessage('Password is required')
   ],
   login
 );
@@ -31,8 +31,11 @@ router.put(
   authMiddleware,
   [
     body('email').optional().isEmail().withMessage('Valid email is required'),
-    body('password').optional().isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
-    body('name').optional().notEmpty().withMessage('Name cannot be empty'),
+    body('password')
+      .optional()
+      .isLength({ min: 6 })
+      .withMessage('Password must be at least 6 characters'),
+    body('name').optional().notEmpty().withMessage('Name cannot be empty')
   ],
   updateProfile
 );

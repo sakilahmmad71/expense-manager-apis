@@ -5,7 +5,7 @@ import {
   getExpenses,
   getExpenseById,
   updateExpense,
-  deleteExpense,
+  deleteExpense
 } from '../controllers/expenseController.js';
 import authMiddleware from '../middleware/auth.js';
 
@@ -18,7 +18,11 @@ router.post(
   [
     body('title').notEmpty().withMessage('Title is required'),
     body('amount').isFloat({ min: 0 }).withMessage('Amount must be a positive number'),
-    body('categoryId').notEmpty().withMessage('Category ID is required').isUUID().withMessage('Category ID must be a valid UUID'),
+    body('categoryId')
+      .notEmpty()
+      .withMessage('Category ID is required')
+      .isUUID()
+      .withMessage('Category ID must be a valid UUID')
   ],
   createExpense
 );
@@ -29,9 +33,7 @@ router.get('/:id', getExpenseById);
 
 router.put(
   '/:id',
-  [
-    body('amount').optional().isFloat({ min: 0 }).withMessage('Amount must be a positive number'),
-  ],
+  [body('amount').optional().isFloat({ min: 0 }).withMessage('Amount must be a positive number')],
   updateExpense
 );
 

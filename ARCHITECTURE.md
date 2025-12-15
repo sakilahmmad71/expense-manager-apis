@@ -2,13 +2,16 @@
 
 ## Overview
 
-This project implements a **Containerized Docker Architecture** where each service is deployed in isolated containers and accessed via localhost during development and your configured domain in production.
+This project implements a **Containerized Docker Architecture** where each
+service is deployed in isolated containers and accessed via localhost during
+development and your configured domain in production.
 
 ## Architecture Pattern
 
 ### Access Points
 
-- **Production API**: `http://your-server-ip:3000` or `https://your-domain.com` (with nginx/reverse proxy)
+- **Production API**: `http://your-server-ip:3000` or `https://your-domain.com`
+  (with nginx/reverse proxy)
 - **Development API**: `http://localhost:3000` (local development)
 - **Frontend**: `http://localhost:5173` (local development)
 
@@ -61,7 +64,8 @@ This project implements a **Containerized Docker Architecture** where each servi
 ### Production
 
 - **Purpose**: Live production environment
-- **Access**: http://your-server-ip:3000 or https://your-domain.com (with reverse proxy)
+- **Access**: http://your-server-ip:3000 or https://your-domain.com (with
+  reverse proxy)
 - **Features**:
   - Optimized production build
   - Optional SSL/TLS encryption (via nginx/reverse proxy)
@@ -86,7 +90,8 @@ This project implements a **Containerized Docker Architecture** where each servi
 - PostgreSQL database with performance tuning
 - Resource limits (memory and CPU)
 - Health checks enabled
-- **Note**: Ports can be exposed or kept internal depending on your reverse proxy setup
+- **Note**: Ports can be exposed or kept internal depending on your reverse
+  proxy setup
 
 ## Nginx Configuration (Optional)
 
@@ -130,7 +135,8 @@ This ensures complete isolation between environments.
 | Development | 3000     | 5432    | 9229       |
 | Production  | 3000\*   | 5432\*  | -          |
 
-**Note**: Production ports can be kept internal (not exposed) if using a reverse proxy. The `*` indicates optional port exposure.
+**Note**: Production ports can be kept internal (not exposed) if using a reverse
+proxy. The `*` indicates optional port exposure.
 
 ## Deployment Strategy
 
@@ -177,24 +183,21 @@ Each environment has its own `.env` file:
 ### Key Variables
 
 - `DATABASE_URL`: PostgreSQL connection string
-
   - Development: `postgresql://expenseuser:expensepass@localhost:5432/expensedb`
   - Production: `postgresql://expenseuser:YOUR_PASSWORD@postgres:5432/expensedb`
 
 - `JWT_SECRET`: Secret key for JWT token signing
-
   - Development: Can use any value
   - Production: Generate with `openssl rand -hex 32`
 
 - `JWT_EXPIRES_IN`: Token expiration time (e.g., `7d`, `24h`)
 
 - `CORS_ORIGIN`: Allowed frontend origins
-
   - Development: `http://localhost:5173`
-  - Production: `https://your-frontend-domain.com` or `http://your-server-ip:5173`
+  - Production: `https://your-frontend-domain.com` or
+    `http://your-server-ip:5173`
 
 - `NODE_ENV`: Environment mode
-
   - Development: `development`
   - Production: `production`
 
@@ -204,11 +207,13 @@ Each environment has its own `.env` file:
 
 ## Benefits of This Architecture
 
-1. **Environment Isolation**: Each environment runs independently with separate networks and volumes
+1. **Environment Isolation**: Each environment runs independently with separate
+   networks and volumes
 2. **Scalability**: Easy to scale horizontally with multiple API containers
 3. **Security**: Network isolation and container-based security
 4. **Flexibility**: Easy to deploy on any server with Docker support
-5. **Portability**: Consistent behavior across different environments and servers
+5. **Portability**: Consistent behavior across different environments and
+   servers
 6. **Development Speed**: Direct API access in development for fast iteration
 7. **Resource Control**: Memory and CPU limits prevent resource exhaustion
 
@@ -216,7 +221,8 @@ Each environment has its own `.env` file:
 
 1. **Never expose database ports** to the internet in production
 2. **Use SSL/TLS** for all production traffic (via reverse proxy)
-3. **Keep environment variables** secure and never commit sensitive values to git
+3. **Keep environment variables** secure and never commit sensitive values to
+   git
 4. **Generate strong secrets** for production (use `openssl rand -hex 32`)
 5. **Monitor health endpoints** (`/api/v1/health`) regularly
 6. **Use named volumes** for data persistence

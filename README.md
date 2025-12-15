@@ -1,19 +1,62 @@
 # Expenser API
 
-A comprehensive REST API for managing expenses with authentication, authorization, and analytics.
+<div align="center">
+  <h3>A comprehensive REST API for managing expenses with authentication, authorization, and analytics</h3>
+  
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+  [![Node.js Version](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen.svg)](https://nodejs.org/)
+  [![CI](https://github.com/sakilahmmad71/expense-manager-apis/workflows/CI/badge.svg)](https://github.com/sakilahmmad71/expense-manager-apis/actions)
+  [![CodeQL](https://github.com/sakilahmmad71/expense-manager-apis/workflows/CodeQL/badge.svg)](https://github.com/sakilahmmad71/expense-manager-apis/actions)
+  [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+  [![Issues](https://img.shields.io/github/issues/sakilahmmad71/expense-manager-apis)](https://github.com/sakilahmmad71/expense-manager-apis/issues)
+  [![Docker](https://img.shields.io/badge/Docker-supported-blue.svg)](Dockerfile.production)
+  [![Prisma](https://img.shields.io/badge/Prisma-ORM-2D3748.svg)](https://prisma.io/)
+  [![Express.js](https://img.shields.io/badge/Express.js-Framework-000000.svg)](https://expressjs.com/)
+  [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-336791.svg)](https://postgresql.org/)
+  
+  [Features](#features) •
+  [Tech Stack](#tech-stack) •
+  [Getting Started](#getting-started) •
+  [API Documentation](#api-documentation) •
+  [Docker Deployment](#docker-deployment) •
+  [Contributing](CONTRIBUTING.md) •
+  [Security](SECURITY.md) •
+  [License](#license)
+</div>
+
+---
+
+## 🏗️ Related Repositories
+
+This API is part of the Expenser ecosystem:
+
+- **[expense-manager-app](https://github.com/sakilahmmad71/expense-manager-app)** -
+  React frontend application
+- **[expense-manager-loadbalancer](https://github.com/sakilahmmad71/expense-manager-loadbalancer)** -
+  Nginx load balancer
+- **[expense-manager-landing](https://github.com/sakilahmmad71/expense-manager-landing)** -
+  Marketing landing page
 
 ## Features
 
-- 🔐 **Authentication & Authorization** - JWT-based user authentication with secure password hashing
-- 👤 **User Profile Management** - Update user information (name, email, password)
-- 💰 **Expense Management** - Full CRUD operations with advanced filtering and pagination
-- 💱 **Multi-Currency Support** - Track expenses in multiple currencies (USD, EUR, GBP, JPY, INR, BDT, and more)
-- 🏷️ **Category Management** - Custom categories with colors, icons, and full CRUD operations
-- 📊 **Dashboard Analytics** - Summary statistics, category breakdown, monthly trends, and recent expenses
-- 🔍 **Advanced Filtering** - Filter expenses by category, date range, with sorting and pagination
+- 🔐 **Authentication & Authorization** - JWT-based user authentication with
+  secure password hashing
+- 👤 **User Profile Management** - Update user information (name, email,
+  password)
+- 💰 **Expense Management** - Full CRUD operations with advanced filtering and
+  pagination
+- 💱 **Multi-Currency Support** - Track expenses in multiple currencies (USD,
+  EUR, GBP, JPY, INR, BDT, and more)
+- 🏷️ **Category Management** - Custom categories with colors, icons, and full
+  CRUD operations
+- 📊 **Dashboard Analytics** - Summary statistics, category breakdown, monthly
+  trends, and recent expenses
+- 🔍 **Advanced Filtering** - Filter expenses by category, date range, with
+  sorting and pagination
 - 📈 **Bulk Operations** - Efficient handling of multiple records
 - 🗄️ **PostgreSQL Database** - Robust data storage with Prisma ORM
-- 📝 **Structured Logging** - JSON-based logging with Winston for comprehensive request tracking
+- 📝 **Structured Logging** - JSON-based logging with Winston for comprehensive
+  request tracking
 - 🏥 **Health Checks** - Detailed health monitoring endpoints
 - 🐳 **Docker Support** - Easy deployment with Docker and Docker Compose
 
@@ -58,7 +101,8 @@ pnpm install
 make setup-env
 ```
 
-This creates `.env.development` and `.env.production` from `.env.example`. Edit `.env.development` for local development:
+This creates `.env.development` and `.env.production` from `.env.example`. Edit
+`.env.development` for local development:
 
 - `DATABASE_URL` - PostgreSQL connection string
 - `JWT_SECRET` - Secret key for JWT tokens
@@ -67,14 +111,15 @@ This creates `.env.development` and `.env.production` from `.env.example`. Edit 
 - `CORS_ORIGIN` - Frontend URL for CORS (default: http://localhost:5173)
 - `LOG_LEVEL` - Logging level (debug, info, warn, error)
 
-**For Production:**
-Edit `.env.production` and update all values with production settings:
+**For Production:** Edit `.env.production` and update all values with production
+settings:
 
 ⚠️ **IMPORTANT**: Change these values before deploying to production:
 
 - `POSTGRES_PASSWORD` - Use a strong, unique password
 - `JWT_SECRET` - Generate with: `openssl rand -hex 32`
-- `CORS_ORIGIN` - Set to your frontend domain (e.g., https://expense-manager.com)
+- `CORS_ORIGIN` - Set to your frontend domain (e.g.,
+  https://expense-manager.com)
 
 4. Generate Prisma Client and run migrations
 
@@ -240,7 +285,8 @@ docker compose -f docker-compose.development.yml up -d
 ### Health
 
 - `GET /api/v1/health` - Basic health check
-- `GET /api/v1/health/detailed` - Detailed health status with database connection
+- `GET /api/v1/health/detailed` - Detailed health status with database
+  connection
 
 ## API Documentation
 
@@ -366,7 +412,8 @@ curl -X GET "http://localhost:3000/api/v1/dashboard/summary?startDate=2025-12-01
 - `id` (UUID, Primary Key)
 - `title` (String, required)
 - `amount` (Decimal, required)
-- `currency` (String, default: "USD") - ISO currency code (USD, EUR, GBP, JPY, INR, BDT, etc.)
+- `currency` (String, default: "USD") - ISO currency code (USD, EUR, GBP, JPY,
+  INR, BDT, etc.)
 - `description` (String, optional)
 - `date` (DateTime, required)
 - `categoryId` (UUID, Foreign Key)
@@ -431,8 +478,8 @@ Error responses:
 
 ```json
 {
-	"success": false,
-	"error": "Error message"
+  "success": false,
+  "error": "Error message"
 }
 ```
 
@@ -440,7 +487,8 @@ Error responses:
 
 ### Bruno API Collection
 
-A complete Bruno API collection is available in the `bruno-api-collection/` directory:
+A complete Bruno API collection is available in the `bruno-api-collection/`
+directory:
 
 - **Auth**: Register, Login, Get Profile, Update Profile
 - **Categories**: Full CRUD operations
@@ -459,7 +507,8 @@ To use:
 
 - [Category API Documentation](./CATEGORY_API.md) - Detailed category endpoints
 - [Logging Documentation](./LOGGING.md) - Structured logging setup
-- [Bruno Collection README](./bruno-api-collection/README.md) - API testing guide
+- [Bruno Collection README](./bruno-api-collection/README.md) - API testing
+  guide
 
 ## Project Structure
 
@@ -519,24 +568,114 @@ expense-manager-apis/
 
 ### Security & Validation
 
-- ✅ Email uniqueness validation on profile update
-- ✅ Optional password change in profile update
-- ✅ Enhanced error handling and logging
+- ✅ Password hashing with bcryptjs
+- ✅ JWT token authentication
+- ✅ Input validation with express-validator
+- ✅ Comprehensive error handling
+- ✅ SQL injection protection via Prisma
 
-## Contributing
+## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+We welcome contributions from the community! Whether you're fixing bugs, adding
+features, improving documentation, or sharing feedback, your contributions are
+valuable.
 
-## License
+### Quick Start for Contributors
 
-MIT
+1. **Fork** the repository
+2. **Clone** your fork:
+   `git clone https://github.com/YOUR_USERNAME/expense-manager-apis.git`
+3. **Install** dependencies: `npm install`
+4. **Create** a feature branch: `git checkout -b feature/amazing-feature`
+5. **Make** your changes and **test** thoroughly
+6. **Lint** and **format**: `npm run validate`
+7. **Commit** with conventional commits:
+   `git commit -m 'feat: add amazing feature'`
+8. **Push** to your fork: `git push origin feature/amazing-feature`
+9. **Open** a Pull Request with a clear description
 
-## Links
+### Ways to Contribute
 
-- **Frontend App**: [expense-manager-app](../expense-manager-app)
-- **GitHub**: [https://github.com/sakilahmmad71](https://github.com/sakilahmmad71)
-- **LinkedIn**: [https://linkedin.com/in/sakilahmmad71](https://linkedin.com/in/sakilahmmad71)
+- 🐛 **Report bugs** using our
+  [bug report template](.github/ISSUE_TEMPLATE/bug_report.md)
+- ✨ **Request features** using our
+  [feature request template](.github/ISSUE_TEMPLATE/feature_request.md)
+- 📝 **Improve documentation** - README, API docs, code comments
+- 🧪 **Add tests** - help us reach better test coverage
+- 🔧 **Fix issues** - check out our
+  [good first issue](https://github.com/sakilahmmad71/expense-manager-apis/labels/good%20first%20issue)
+  label
+- 🚀 **Optimize performance** - database queries, API responses
+- 🛡️ **Enhance security** - help us identify and fix vulnerabilities
 
-## Acknowledgments
+### Development Guidelines
 
-Built with ❤️ as an open-source project for the community.
+Please read our [Contributing Guide](CONTRIBUTING.md) for:
+
+- Code of Conduct
+- Development setup
+- Coding standards
+- Commit message format
+- Pull request process
+
+### Community
+
+- 💬 **Discussions**:
+  [GitHub Discussions](https://github.com/sakilahmmad71/expense-manager-apis/discussions)
+- 🐛 **Issues**:
+  [GitHub Issues](https://github.com/sakilahmmad71/expense-manager-apis/issues)
+- 📧 **Email**: sakilahmmad71@gmail.com
+
+### Recognition
+
+All contributors will be recognized in our
+[Contributors](https://github.com/sakilahmmad71/expense-manager-apis/graphs/contributors)
+page. We appreciate every contribution, big or small!
+
+## �️ Security
+
+Security is a top priority for this project. If you discover any security
+vulnerabilities, please report them responsibly.
+
+- 📋 **Security Policy**: See our [Security Policy](SECURITY.md) for details
+- 📧 **Report Vulnerabilities**: Email sakilahmmad71@gmail.com
+- 🔒 **Response Time**: We aim to respond within 48 hours
+- ✅ **Security Features**: JWT authentication, input validation, SQL injection
+  prevention
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
+for details.
+
+```
+MIT License - Feel free to use, modify, and distribute
+✅ Commercial use allowed
+✅ Modification allowed
+✅ Distribution allowed
+✅ Private use allowed
+```
+
+## 👤 Author
+
+**Shakil Ahmed**
+
+- GitHub: [@sakilahmmad71](https://github.com/sakilahmmad71)
+- Email: sakilahmmad71@gmail.com
+
+## 🙏 Acknowledgments
+
+- Built with [Express.js](https://expressjs.com/)
+- Database ORM by [Prisma](https://www.prisma.io/)
+- Inspired by the need for simple, effective expense tracking
+
+## 📧 Support
+
+For support, email sakilahmmad71@gmail.com or open an issue in the
+[GitHub repository](https://github.com/sakilahmmad71/expense-manager-apis/issues).
+
+---
+
+<div align="center">
+  Made with ❤️ by <a href="https://github.com/sakilahmmad71">Shakil Ahmed</a>
+</div>

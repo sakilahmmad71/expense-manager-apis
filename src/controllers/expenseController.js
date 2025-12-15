@@ -15,8 +15,8 @@ const createExpense = async (req, res) => {
     const category = await prisma.category.findFirst({
       where: {
         id: categoryId,
-        userId: req.userId,
-      },
+        userId: req.userId
+      }
     });
 
     if (!category) {
@@ -31,16 +31,16 @@ const createExpense = async (req, res) => {
         categoryId,
         description,
         date: date ? new Date(date) : new Date(),
-        userId: req.userId,
+        userId: req.userId
       },
       include: {
-        category: true,
-      },
+        category: true
+      }
     });
 
     res.status(201).json({
       message: 'Expense created successfully',
-      expense,
+      expense
     });
   } catch (error) {
     logger.logError(error, null, { context: 'create-expense' });
@@ -56,12 +56,13 @@ const getExpenses = async (req, res) => {
     const where = {
       userId: req.userId,
       ...(categoryId && { categoryId }),
-      ...(startDate && endDate && {
-        date: {
-          gte: new Date(startDate),
-          lte: new Date(endDate),
-        },
-      }),
+      ...(startDate &&
+        endDate && {
+          date: {
+            gte: new Date(startDate),
+            lte: new Date(endDate)
+          }
+        })
     };
 
     const [expenses, total] = await Promise.all([
@@ -71,10 +72,10 @@ const getExpenses = async (req, res) => {
         skip: parseInt(skip),
         take: parseInt(limit),
         include: {
-          category: true,
-        },
+          category: true
+        }
       }),
-      prisma.expense.count({ where }),
+      prisma.expense.count({ where })
     ]);
 
     res.json({
@@ -83,8 +84,8 @@ const getExpenses = async (req, res) => {
         page: parseInt(page),
         limit: parseInt(limit),
         total,
-        pages: Math.ceil(total / limit),
-      },
+        pages: Math.ceil(total / limit)
+      }
     });
   } catch (error) {
     logger.logError(error, null, { context: 'get-expenses' });
@@ -99,11 +100,11 @@ const getExpenseById = async (req, res) => {
     const expense = await prisma.expense.findFirst({
       where: {
         id,
-        userId: req.userId,
+        userId: req.userId
       },
       include: {
-        category: true,
-      },
+        category: true
+      }
     });
 
     if (!expense) {
@@ -130,8 +131,8 @@ const updateExpense = async (req, res) => {
     const existingExpense = await prisma.expense.findFirst({
       where: {
         id,
-        userId: req.userId,
-      },
+        userId: req.userId
+      }
     });
 
     if (!existingExpense) {
@@ -143,8 +144,8 @@ const updateExpense = async (req, res) => {
       const category = await prisma.category.findFirst({
         where: {
           id: categoryId,
-          userId: req.userId,
-        },
+          userId: req.userId
+        }
       });
 
       if (!category) {
@@ -160,16 +161,16 @@ const updateExpense = async (req, res) => {
         ...(currency && { currency }),
         ...(categoryId && { categoryId }),
         ...(description !== undefined && { description }),
-        ...(date && { date: new Date(date) }),
+        ...(date && { date: new Date(date) })
       },
       include: {
-        category: true,
-      },
+        category: true
+      }
     });
 
     res.json({
       message: 'Expense updated successfully',
-      expense,
+      expense
     });
   } catch (error) {
     logger.logError(error, null, { context: 'update-expense' });
@@ -184,8 +185,8 @@ const deleteExpense = async (req, res) => {
     const existingExpense = await prisma.expense.findFirst({
       where: {
         id,
-        userId: req.userId,
-      },
+        userId: req.userId
+      }
     });
 
     if (!existingExpense) {
@@ -193,7 +194,7 @@ const deleteExpense = async (req, res) => {
     }
 
     await prisma.expense.delete({
-      where: { id },
+      where: { id }
     });
 
     res.json({ message: 'Expense deleted successfully' });
@@ -203,10 +204,4 @@ const deleteExpense = async (req, res) => {
   }
 };
 
-export {
-  createExpense,
-  getExpenses,
-  getExpenseById,
-  updateExpense,
-  deleteExpense,
-};
+export { createExpense, getExpenses, getExpenseById, updateExpense, deleteExpense };

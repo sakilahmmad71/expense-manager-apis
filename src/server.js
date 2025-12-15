@@ -32,7 +32,7 @@ app.use((req, res) => {
     method: req.method,
     url: req.url,
     path: req.path,
-    ip: req.ip || req.connection.remoteAddress,
+    ip: req.ip || req.connection.remoteAddress
   });
   res.status(404).json({ error: 'Route not found' });
 });
@@ -41,16 +41,16 @@ app.use((req, res) => {
 app.use(errorLogger);
 
 // Error handler
-app.use((err, req, res, next) => {
+app.use((err, req, res, _next) => {
   res.status(err.status || 500).json({
     error: err.message || 'Something went wrong!',
-    ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
+    ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
   });
 });
 
 app.listen(PORT, () => {
-  logger.info(`Server started successfully`, {
+  logger.info('Server started successfully', {
     port: PORT,
-    nodeEnv: process.env.NODE_ENV || 'development',
+    nodeEnv: process.env.NODE_ENV || 'development'
   });
 });

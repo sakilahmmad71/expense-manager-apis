@@ -24,24 +24,24 @@ const register = async (req, res) => {
       data: {
         email,
         password: hashedPassword,
-        name,
+        name
       },
       select: {
         id: true,
         email: true,
         name: true,
-        createdAt: true,
-      },
+        createdAt: true
+      }
     });
 
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-      expiresIn: '7d',
+      expiresIn: '7d'
     });
 
     res.status(201).json({
       message: 'User registered successfully',
       user,
-      token,
+      token
     });
   } catch (error) {
     logger.logError(error, null, { context: 'user-registration' });
@@ -69,7 +69,7 @@ const login = async (req, res) => {
     }
 
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-      expiresIn: '7d',
+      expiresIn: '7d'
     });
 
     res.json({
@@ -77,9 +77,9 @@ const login = async (req, res) => {
       user: {
         id: user.id,
         email: user.email,
-        name: user.name,
+        name: user.name
       },
-      token,
+      token
     });
   } catch (error) {
     logger.logError(error, null, { context: 'user-login' });
@@ -95,8 +95,8 @@ const getProfile = async (req, res) => {
         id: true,
         email: true,
         name: true,
-        createdAt: true,
-      },
+        createdAt: true
+      }
     });
 
     if (!user) {
@@ -144,13 +144,13 @@ const updateProfile = async (req, res) => {
         id: true,
         email: true,
         name: true,
-        createdAt: true,
-      },
+        createdAt: true
+      }
     });
 
     res.json({
       message: 'Profile updated successfully',
-      user,
+      user
     });
   } catch (error) {
     logger.logError(error, null, { context: 'update-user-profile' });

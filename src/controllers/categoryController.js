@@ -16,14 +16,14 @@ const createCategory = async (req, res) => {
       where: {
         userId_name: {
           userId: req.userId,
-          name: name,
-        },
-      },
+          name
+        }
+      }
     });
 
     if (existingCategory) {
       return res.status(409).json({
-        error: 'Category with this name already exists',
+        error: 'Category with this name already exists'
       });
     }
 
@@ -32,13 +32,13 @@ const createCategory = async (req, res) => {
         name,
         color,
         icon,
-        userId: req.userId,
-      },
+        userId: req.userId
+      }
     });
 
     res.status(201).json({
       message: 'Category created successfully',
-      category,
+      category
     });
   } catch (error) {
     logger.logError(error, null, { context: 'create-category' });
@@ -54,24 +54,24 @@ const getCategories = async (req, res) => {
     const [categories, total] = await Promise.all([
       prisma.category.findMany({
         where: {
-          userId: req.userId,
+          userId: req.userId
         },
         skip: parseInt(skip),
         take: parseInt(limit),
         orderBy: {
-          name: 'asc',
+          name: 'asc'
         },
         include: {
           _count: {
-            select: { expenses: true },
-          },
-        },
+            select: { expenses: true }
+          }
+        }
       }),
       prisma.category.count({
         where: {
-          userId: req.userId,
-        },
-      }),
+          userId: req.userId
+        }
+      })
     ]);
 
     res.json({
@@ -80,8 +80,8 @@ const getCategories = async (req, res) => {
         total,
         page: parseInt(page),
         limit: parseInt(limit),
-        pages: Math.ceil(total / limit),
-      },
+        pages: Math.ceil(total / limit)
+      }
     });
   } catch (error) {
     logger.logError(error, null, { context: 'get-categories' });
@@ -96,13 +96,13 @@ const getCategoryById = async (req, res) => {
     const category = await prisma.category.findFirst({
       where: {
         id,
-        userId: req.userId,
+        userId: req.userId
       },
       include: {
         _count: {
-          select: { expenses: true },
-        },
-      },
+          select: { expenses: true }
+        }
+      }
     });
 
     if (!category) {
@@ -130,8 +130,8 @@ const updateCategory = async (req, res) => {
     const existingCategory = await prisma.category.findFirst({
       where: {
         id,
-        userId: req.userId,
-      },
+        userId: req.userId
+      }
     });
 
     if (!existingCategory) {
@@ -144,14 +144,14 @@ const updateCategory = async (req, res) => {
         where: {
           userId_name: {
             userId: req.userId,
-            name: name,
-          },
-        },
+            name
+          }
+        }
       });
 
       if (nameConflict) {
         return res.status(409).json({
-          error: 'Category with this name already exists',
+          error: 'Category with this name already exists'
         });
       }
     }
@@ -161,13 +161,13 @@ const updateCategory = async (req, res) => {
       data: {
         ...(name && { name }),
         ...(color !== undefined && { color }),
-        ...(icon !== undefined && { icon }),
-      },
+        ...(icon !== undefined && { icon })
+      }
     });
 
     res.json({
       message: 'Category updated successfully',
-      category,
+      category
     });
   } catch (error) {
     logger.logError(error, null, { context: 'update-category' });
@@ -183,13 +183,13 @@ const deleteCategory = async (req, res) => {
     const category = await prisma.category.findFirst({
       where: {
         id,
-        userId: req.userId,
+        userId: req.userId
       },
       include: {
         _count: {
-          select: { expenses: true },
-        },
-      },
+          select: { expenses: true }
+        }
+      }
     });
 
     if (!category) {
@@ -200,12 +200,12 @@ const deleteCategory = async (req, res) => {
     if (category._count.expenses > 0) {
       return res.status(409).json({
         error: 'Cannot delete category with associated expenses',
-        expenseCount: category._count.expenses,
+        expenseCount: category._count.expenses
       });
     }
 
     await prisma.category.delete({
-      where: { id },
+      where: { id }
     });
 
     res.json({ message: 'Category deleted successfully' });
@@ -220,5 +220,5 @@ export default {
   getCategories,
   getCategoryById,
   updateCategory,
-  deleteCategory,
+  deleteCategory
 };

@@ -9,7 +9,7 @@ const authMiddleware = async (req, res, next) => {
       logger.warn('Authentication attempt without token', {
         ip: req.ip || req.connection.remoteAddress,
         url: req.url,
-        method: req.method,
+        method: req.method
       });
       return res.status(401).json({ error: 'Authentication required' });
     }
@@ -22,7 +22,7 @@ const authMiddleware = async (req, res, next) => {
       error: error.message,
       ip: req.ip || req.connection.remoteAddress,
       url: req.url,
-      method: req.method,
+      method: req.method
     });
     return res.status(401).json({ error: 'Invalid or expired token' });
   }

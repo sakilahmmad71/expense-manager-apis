@@ -1,38 +1,62 @@
 {
-	"name": "expense-manager-apis",
-	"version": "1.0.0",
-	"description": "Expenser REST APIs with authentication and analytics",
-	"type": "module",
-	"main": "src/server.js",
-	"scripts": {
-		"dev": "nodemon src/server.js",
-		"start": "node src/server.js",
-		"prisma:generate": "prisma generate",
-		"prisma:migrate": "prisma migrate dev",
-		"prisma:deploy": "prisma migrate deploy",
-		"prisma:studio": "prisma studio"
-	},
-	"keywords": [
-		"expense",
-		"api",
-		"express",
-		"prisma"
-	],
-	"author": "",
-	"license": "MIT",
-	"dependencies": {
-		"@prisma/client": "^6.1.0",
-		"bcryptjs": "^2.4.3",
-		"cors": "^2.8.5",
-		"dotenv": "^16.4.7",
-		"express": "^4.21.2",
-		"express-validator": "^7.2.1",
-		"jsonwebtoken": "^9.0.2",
-		"morgan": "^1.10.0",
-		"winston": "^3.19.0"
-	},
-	"devDependencies": {
-		"nodemon": "^3.1.9",
-		"prisma": "^6.1.0"
-	}
+  "name": "expense-manager-apis",
+  "version": "1.0.0",
+  "description": "A comprehensive REST API for managing expenses with authentication, authorization, and analytics",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "format": "prettier --write \"src/**/*.js\" \"*.md\" \"*.json\"",
+    "format:check": "prettier --check \"src/**/*.js\" \"*.md\" \"*.json\"",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:deploy": "prisma migrate deploy",
+    "prisma:studio": "prisma studio",
+    "validate": "npm run lint && npm run format:check && npx prisma validate"
+  },
+  "keywords": [
+    "expense-tracker",
+    "expense-manager",
+    "rest-api",
+    "nodejs",
+    "express",
+    "prisma",
+    "postgresql",
+    "jwt",
+    "authentication",
+    "analytics",
+    "docker",
+    "personal-finance",
+    "multi-currency"
+  ],
+  "author": "Shakil Ahmed <sakilahmmad71@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sakilahmmad71/expense-manager-apis.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sakilahmmad71/expense-manager-apis/issues"
+  },
+  "homepage": "https://github.com/sakilahmmad71/expense-manager-apis#readme",
+  "dependencies": {
+    "@prisma/client": "^6.1.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-validator": "^7.2.1",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "winston": "^3.19.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "nodemon": "^3.1.9",
+    "prettier": "^3.1.0",
+    "prisma": "^6.1.0"
+  }
 }

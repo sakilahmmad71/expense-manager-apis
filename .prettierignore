@@ -1,0 +1,45 @@
+node_modules/
+logs/
+*.log
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Database
+prisma/migrations/*.sql
+*.db
+*.sqlite
+
+# Dependencies
+package-lock.json
+yarn.lock
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build outputs
+dist/
+build/
+
+# Testing
+coverage/
+.nyc_output/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Docker
+.dockerignore
+
+# Prettier
+.prettierignore

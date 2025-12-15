@@ -24,7 +24,7 @@ router.post(
       .optional()
       .trim()
       .isLength({ max: 50 })
-      .withMessage('Icon must be less than 50 characters'),
+      .withMessage('Icon must be less than 50 characters')
   ],
   categoryController.createCategory
 );
@@ -49,7 +49,7 @@ router.put(
       .optional()
       .trim()
       .isLength({ max: 50 })
-      .withMessage('Icon must be less than 50 characters'),
+      .withMessage('Icon must be less than 50 characters')
   ],
   categoryController.updateCategory
 );
