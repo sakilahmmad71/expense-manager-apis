@@ -63,6 +63,13 @@ const login = async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
+    // Check if user registered with OAuth
+    if (user.authProvider !== 'local' || !user.password) {
+      return res.status(401).json({
+        error: `This account is registered with ${user.authProvider}. Please use ${user.authProvider} to log in.`
+      });
+    }
+
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return res.status(401).json({ error: 'Invalid credentials' });
@@ -77,7 +84,8 @@ const login = async (req, res) => {
       user: {
         id: user.id,
         email: user.email,
-        name: user.name
+        name: user.name,
+        avatar: user.avatar
       },
       token
     });
@@ -95,6 +103,8 @@ const getProfile = async (req, res) => {
         id: true,
         email: true,
         name: true,
+        avatar: true,
+        authProvider: true,
         createdAt: true
       }
     });
@@ -103,7 +113,7 @@ const getProfile = async (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    res.json({ user });
+    res.json(user);
   } catch (error) {
     logger.logError(error, null, { context: 'get-user-profile' });
     res.status(500).json({ error: 'Internal server error' });
@@ -158,4 +168,33 @@ const updateProfile = async (req, res) => {
   }
 };
 
-export { register, login, getProfile, updateProfile };
+// Google OAuth callback handler
+const googleCallback = async (req, res) => {
+  try {
+    // User is already authenticated by passport
+    const user = req.user;
+
+    // Generate JWT token
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRES_IN || '7d'
+    });
+
+    // In production, redirect to frontend with token
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+    const redirectUrl = `${frontendUrl}/auth/callback?token=${token}`;
+
+    res.redirect(redirectUrl);
+  } catch (error) {
+    logger.logError(error, null, { context: 'google-oauth-callback' });
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+    res.redirect(`${frontendUrl}/auth/error?message=Authentication failed`);
+  }
+};
+
+// Google OAuth failure handler
+const googleFailure = (req, res) => {
+  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+  res.redirect(`${frontendUrl}/auth/error?message=Google authentication failed`);
+};
+
+export { register, login, getProfile, updateProfile, googleCallback, googleFailure };

@@ -8,14 +8,17 @@ datasource db {
 }
 
 model User {
-  id         String     @id @default(uuid())
-  email      String     @unique
-  password   String
-  name       String
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  expenses   Expense[]
-  categories Category[]
+  id           String     @id @default(uuid())
+  email        String     @unique
+  password     String?
+  name         String
+  googleId     String?    @unique
+  authProvider String     @default("local") // 'local' or 'google'
+  avatar       String?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  expenses     Expense[]
+  categories   Category[]
 
   @@map("users")
 }
