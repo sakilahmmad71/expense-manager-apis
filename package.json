@@ -43,7 +43,7 @@
   },
   "homepage": "https://github.com/sakilahmmad71/expense-manager-apis#readme",
   "dependencies": {
-    "@prisma/client": "^6.1.0",
+    "@prisma/client": "^7.1.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
