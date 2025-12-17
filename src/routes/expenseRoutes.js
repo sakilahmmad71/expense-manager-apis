@@ -19,8 +19,7 @@ router.post(
     body('title').notEmpty().withMessage('Title is required'),
     body('amount').isFloat({ min: 0 }).withMessage('Amount must be a positive number'),
     body('categoryId')
-      .notEmpty()
-      .withMessage('Category ID is required')
+      .optional()
       .isUUID()
       .withMessage('Category ID must be a valid UUID')
   ],

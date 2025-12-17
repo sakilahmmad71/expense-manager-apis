@@ -10,6 +10,16 @@ and this project adheres to
 
 ### Added
 
+- 🏷️ **Default Categories System**
+  - 12 default categories automatically created on user registration
+  - Categories include: No Category, Food & Dining, Transportation, Shopping,
+    Entertainment, Bills & Utilities, Healthcare, Education, Travel, Personal
+    Care, Groceries, and Other
+  - "No Category" fallback for uncategorized expenses
+  - Migration endpoints for existing users (`/api/v1/migration/*`)
+  - Migration script (`npm run migrate:categories`) for bulk migration
+  - Comprehensive documentation in `docs/DEFAULT_CATEGORIES.md`
+  - Bruno API collection for testing migration endpoints
 - Open source preparation with community health files
 - GitHub issue and pull request templates
 - CI/CD workflow with GitHub Actions
@@ -20,6 +30,12 @@ and this project adheres to
 ### Changed
 
 - Enhanced project metadata for better discoverability
+- User registration now creates default categories automatically
+- Google OAuth registration includes default categories
+- **Expense creation now defaults to "No Category"** if no category is selected
+  - CategoryId is now optional in expense creation API
+  - Frontend UI updated to reflect optional category selection
+  - Improved user experience by removing mandatory category requirement
 
 ## [1.0.0] - 2025-12-15
 

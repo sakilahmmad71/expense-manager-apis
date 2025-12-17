@@ -1,6 +1,7 @@
 import { validationResult } from 'express-validator';
 import prisma from '../config/database.js';
 import logger from '../config/logger.js';
+import { getOrCreateNoCategory } from '../utils/defaultCategories.js';
 
 const createExpense = async (req, res) => {
   try {
@@ -11,16 +12,23 @@ const createExpense = async (req, res) => {
 
     const { title, amount, categoryId, description, date, currency } = req.body;
 
-    // Verify category exists and belongs to user
-    const category = await prisma.category.findFirst({
-      where: {
-        id: categoryId,
-        userId: req.userId
-      }
-    });
+    let finalCategoryId = categoryId;
 
-    if (!category) {
-      return res.status(404).json({ error: 'Category not found' });
+    // If no category is provided, assign to "No Category"
+    if (!categoryId) {
+      finalCategoryId = await getOrCreateNoCategory(req.userId);
+    } else {
+      // Verify category exists and belongs to user
+      const category = await prisma.category.findFirst({
+        where: {
+          id: categoryId,
+          userId: req.userId
+        }
+      });
+
+      if (!category) {
+        return res.status(404).json({ error: 'Category not found' });
+      }
     }
 
     const expense = await prisma.expense.create({
@@ -28,7 +36,7 @@ const createExpense = async (req, res) => {
         title,
         amount: parseFloat(amount),
         currency: currency || 'USD',
-        categoryId,
+        categoryId: finalCategoryId,
         description,
         date: date ? new Date(date) : new Date(),
         userId: req.userId
@@ -58,11 +66,11 @@ const getExpenses = async (req, res) => {
       ...(categoryId && { categoryId }),
       ...(startDate &&
         endDate && {
-          date: {
-            gte: new Date(startDate),
-            lte: new Date(endDate)
-          }
-        })
+        date: {
+          gte: new Date(startDate),
+          lte: new Date(endDate)
+        }
+      })
     };
 
     const [expenses, total] = await Promise.all([

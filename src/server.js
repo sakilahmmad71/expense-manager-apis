@@ -8,6 +8,7 @@ import authRoutes from './routes/authRoutes.js';
 import expenseRoutes from './routes/expenseRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
+import migrationRoutes from './routes/migrationRoutes.js';
 import { requestLogger, errorLogger } from './middleware/logging.js';
 import logger from './config/logger.js';
 
@@ -48,6 +49,7 @@ app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/expenses', expenseRoutes);
 app.use('/api/v1/dashboard', dashboardRoutes);
 app.use('/api/v1/categories', categoryRoutes);
+app.use('/api/v1/migration', migrationRoutes);
 
 // 404 handler
 app.use((req, res) => {
