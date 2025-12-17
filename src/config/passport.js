@@ -2,6 +2,7 @@ import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import prisma from './database.js';
 import logger from './logger.js';
+import { createDefaultCategories } from '../utils/defaultCategories.js';
 
 // Configure Google OAuth Strategy
 passport.use(
@@ -95,6 +96,9 @@ passport.use(
             createdAt: true
           }
         });
+
+        // Create default categories for new user
+        await createDefaultCategories(user.id);
 
         logger.info('New user created with Google', { userId: user.id, email });
         return done(null, user);

@@ -1,0 +1,27 @@
+meta {
+  name: Check Migration Status
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/migration/status
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+docs {
+  # Check Migration Status
+  
+  Check the status of the default categories migration.
+  
+  Returns statistics about:
+  - Total users
+  - Users with/without categories
+  - Users with "No Category"
+  - Total expenses and categories
+}

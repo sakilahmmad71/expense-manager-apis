@@ -1,0 +1,30 @@
+meta {
+  name: Migrate Default Categories
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/migration/default-categories
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+docs {
+  # Migrate Default Categories
+  
+  Creates default categories for all users who don't have any categories.
+  Also creates "No Category" for users who have categories but are missing it.
+  
+  **Warning:** This is a maintenance endpoint and should be restricted to admin users in production.
+  
+  Returns:
+  - Number of users processed
+  - Number of categories created
+  - Number of expenses updated
+  - Any errors encountered
+}

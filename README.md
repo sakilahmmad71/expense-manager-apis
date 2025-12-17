@@ -50,7 +50,7 @@ This API is part of the Expenser ecosystem:
 - 💱 **Multi-Currency Support** - Track expenses in multiple currencies (USD,
   EUR, GBP, JPY, INR, BDT, and more)
 - 🏷️ **Category Management** - Custom categories with colors, icons, and full
-  CRUD operations
+  CRUD operations + 12 default categories created automatically on signup
 - 📊 **Dashboard Analytics** - Summary statistics, category breakdown, monthly
   trends, and recent expenses
 - 🔍 **Advanced Filtering** - Filter expenses by category, date range, with
@@ -202,6 +202,15 @@ make migrate-status
 make studio
 ```
 
+**Migrations:**
+
+```bash
+# For existing installations: Create default categories for all users
+npm run migrate:categories
+# or
+pnpm migrate:categories
+```
+
 **Service Management:**
 
 ```bash
@@ -269,6 +278,21 @@ docker compose -f docker-compose.development.yml up -d
 - `GET /api/v1/categories/:id` - Get single category by ID
 - `PUT /api/v1/categories/:id` - Update category
 - `DELETE /api/v1/categories/:id` - Delete category
+
+> **Note:** 12 default categories are automatically created when a user signs
+> up. See [Default Categories Documentation](docs/DEFAULT_CATEGORIES.md) for
+> details.
+
+### Migration (Admin)
+
+- `GET /api/v1/migration/status` - Check migration status
+- `POST /api/v1/migration/default-categories` - Migrate all users to have
+  default categories
+- `POST /api/v1/migration/fix-orphan-expenses` - Assign "No Category" to
+  expenses without categories
+
+> **⚠️ Warning:** Migration endpoints should be restricted to admin users in
+> production.
 
 ### Dashboard
 

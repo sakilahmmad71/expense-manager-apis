@@ -1,0 +1,28 @@
+meta {
+  name: Fix Orphan Expenses
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/migration/fix-orphan-expenses
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+docs {
+  # Fix Orphan Expenses
+  
+  Assigns "No Category" to all expenses that don't have a valid category.
+  
+  **Warning:** This is a maintenance endpoint and should be restricted to admin users in production.
+  
+  Returns:
+  - Total number of expenses updated
+  - Number of users processed
+  - Any errors encountered
+}

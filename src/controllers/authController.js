@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import { validationResult } from 'express-validator';
 import prisma from '../config/database.js';
 import logger from '../config/logger.js';
+import { createDefaultCategories } from '../utils/defaultCategories.js';
 
 const register = async (req, res) => {
   try {
@@ -33,6 +34,9 @@ const register = async (req, res) => {
         createdAt: true
       }
     });
+
+    // Create default categories for the new user
+    await createDefaultCategories(user.id);
 
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
       expiresIn: '7d'
