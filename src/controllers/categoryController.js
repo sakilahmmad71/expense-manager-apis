@@ -48,18 +48,38 @@ const createCategory = async (req, res) => {
 
 const getCategories = async (req, res) => {
   try {
-    const { page = 1, limit = 50 } = req.query;
+    const {
+      page = 1,
+      limit = 50,
+      search = '',
+      sortBy = 'updatedAt',
+      sortOrder = 'desc'
+    } = req.query;
     const skip = (page - 1) * limit;
+
+    // Build where clause
+    const where = {
+      userId: req.userId,
+      ...(search && {
+        name: {
+          contains: search,
+          mode: 'insensitive'
+        }
+      })
+    };
+
+    // Build orderBy clause
+    const validSortFields = ['name', 'createdAt', 'updatedAt'];
+    const sortField = validSortFields.includes(sortBy) ? sortBy : 'updatedAt';
+    const order = sortOrder === 'asc' ? 'asc' : 'desc';
 
     const [categories, total] = await Promise.all([
       prisma.category.findMany({
-        where: {
-          userId: req.userId
-        },
+        where,
         skip: parseInt(skip),
         take: parseInt(limit),
         orderBy: {
-          name: 'asc'
+          [sortField]: order
         },
         include: {
           _count: {
@@ -68,9 +88,7 @@ const getCategories = async (req, res) => {
         }
       }),
       prisma.category.count({
-        where: {
-          userId: req.userId
-        }
+        where
       })
     ]);
 

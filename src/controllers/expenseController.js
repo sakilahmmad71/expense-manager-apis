@@ -58,7 +58,7 @@ const createExpense = async (req, res) => {
 
 const getExpenses = async (req, res) => {
   try {
-    const { page = 1, limit = 10, categoryId, startDate, endDate } = req.query;
+    const { page = 1, limit = 10, categoryId, startDate, endDate, search } = req.query;
     const skip = (page - 1) * limit;
 
     const where = {
@@ -70,6 +70,12 @@ const getExpenses = async (req, res) => {
           gte: new Date(startDate),
           lte: new Date(endDate)
         }
+      }),
+      ...(search && {
+        OR: [
+          { title: { contains: search, mode: 'insensitive' } },
+          { description: { contains: search, mode: 'insensitive' } }
+        ]
       })
     };
 
